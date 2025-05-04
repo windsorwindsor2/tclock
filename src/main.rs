@@ -5,7 +5,6 @@ use gemini_engine::{
     gameloop,
     primitives::Line,
     view::{View, WrappingMode},
-    ascii::Sprite
 };
 
 const FPS: f32 = 4.0;
@@ -43,7 +42,6 @@ fn main() {
     let mut second_hand = Line::new(center,end, second_hand_char);
     let mut minute_hand = Line::new(center,end, minute_hand_char);
     let mut hour_hand = Line::new(center,end, hour_hand_char);
-    let mut second_disp = Sprite::new(Vec2D::ZERO,"00",Modifier::None);
 
     loop {
         view.clear();
@@ -53,18 +51,15 @@ fn main() {
         let minute = now.minute() as f64;
         let hour = now.hour() as f64;
         
-        let second_text = second.to_string();
         second_theta= (second * PI/30.0) - PI/2.0;
         minute_theta= (minute * PI/30.0) - PI/2.0;
         hour_theta= ((hour + minute/60.0) * PI/6.0) - PI/2.0;
 
         second_hand.pos1 = radius(center,r,second_theta);
-        second_disp.texture=second_text;
         minute_hand.pos1 = radius(center,r,minute_theta);
         hour_hand.pos1= radius(center, r * hour_hand_ratio, hour_theta);
 
         view.draw(&second_hand);
-        view.draw(&second_disp);
         view.draw(&minute_hand);
         view.draw(&hour_hand);
 
